@@ -1,0 +1,33 @@
+version: 2.1
+
+orbs:
+  browser-tools: circleci/browser-tools@1.0.1
+
+jobs:
+  build-test:
+    docker:
+      - image: cirrusci/flutter:stable
+    steps:
+      - checkout
+      - run: dart format ./ && exit $(git diff | wc -l)
+      - run: flutter pub get
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+      - run: flutter test --platform chrome
+      - run: flutter test --coverage
+      - run: genhtml -o coverage coverage/lcov.info
+      - store_artifacts:
+          path: ./coverage
+          destination: /coverage
+      - run: dart pub publish --dry-run
+  pubilsh:
+    docker:
+      - image: cirrusci/flutter:stable
+    steps:
+      - checkout
+      - run: dart pub publish
+
+workflows: 
+  build-test:
+    jobs:
+      - build-test
