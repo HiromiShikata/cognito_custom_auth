@@ -1,7 +1,7 @@
 name: cognito_custom_auth
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
+repository: https://github.com/HiromiShikata/cognito_custom_auth
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
