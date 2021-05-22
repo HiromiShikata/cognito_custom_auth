@@ -20,14 +20,26 @@ jobs:
           path: ./coverage
           destination: /coverage
       - run: dart pub publish --dry-run
+  example-cognito:
+    docker:
+      - image: cimg/node:14.16.0
+    environment: 
+      AWS_DEFAULT_REGION: us-east-1
+    steps:
+      - checkout
+      - run: npm i
+      - run: npm run build
+      - run: npx sls deploy
   pubilsh:
     docker:
       - image: cirrusci/flutter:stable
     steps:
       - checkout
       - run: dart pub publish
+  
 
 workflows: 
   build-test:
     jobs:
+      - example-cognito
       - build-test
