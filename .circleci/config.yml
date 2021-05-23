@@ -11,6 +11,7 @@ jobs:
       - checkout
       - run: dart format ./ && exit $(git diff | wc -l)
       - run: flutter pub get
+      - run: flutter analyze
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run: flutter test --platform chrome
