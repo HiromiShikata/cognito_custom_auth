@@ -1,4 +1,4 @@
-name: Move new issues into Inbox
+name: Move new issues & PR into Inbox
 on:
   issues:
     types: [opened]
@@ -10,6 +10,6 @@ jobs:
     steps:
       - uses: alex-page/github-project-automation-plus@v0.2.4
         with:
-          project: 202105 - global
+          project: Current - global
           column: Inbox
           repo-token: ${{ secrets.GH_TOKEN }} 
