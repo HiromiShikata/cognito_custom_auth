@@ -1,8 +1,7 @@
 # cognito_custom_auth
 [![CircleCI](https://circleci.com/gh/HiromiShikata/cognito_custom_auth.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
 
-
-A new Flutter package project.
+ref: https://aws.amazon.com/blogs/mobile/implementing-passwordless-email-authentication-with-amazon-cognito/
 
 ## Getting Started
 
