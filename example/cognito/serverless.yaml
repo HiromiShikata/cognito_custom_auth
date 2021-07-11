@@ -1,0 +1,59 @@
+service: cognito-passwordless-auth
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  apiGateway:
+    shouldStartNameWithService: true
+configValidationMode: error
+
+package:
+  exclude:
+    - .idea/**/*
+    - reports/**/*
+    - src/**/*
+    - tmp/**/*
+    - '*'
+    - '**/*.md'
+    - '**/LICENCE'
+    - '**/*.ts'
+functions:
+  define:
+    handler: dist/src/define-auth-chanllenge.handler
+    events:
+      - cognitoUserPool:
+          pool: UserPool
+          trigger: DefineAuthChallenge
+  
+resources:
+  Resources:
+    CognitoUserPoolUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: UserPool
+        Schema:
+          - Name: email
+            AttributeDataType: String
+            Mutable: true
+            Required: true
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 8
+            RequireLowercase: false
+            RequireUppercase: false
+            RequireNumbers: false
+            RequireSymbols: false
+        UsernameAttributes:
+          - email
+        MfaConfiguration: "OFF"
+    UserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: email-auth-client
+        GenerateSecret: false
+        UserPoolId: !Ref CognitoUserPoolUserPool
+        ExplicitAuthFlows:
+          - CUSTOM_AUTH_FLOW_ONLY
+
+          
+          
